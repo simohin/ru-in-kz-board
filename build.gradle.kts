@@ -10,7 +10,7 @@ plugins {
 
 group = "com.github.simohin"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
     compileOnly {
@@ -23,6 +23,9 @@ repositories {
 }
 
 extra["vaadinVersion"] = "23.2.2"
+extra["apiSheetsVersion"] = "v4-rev20220620-2.0.0"
+extra["googleAuthClient"] = "1.34.1"
+extra["googleApiClient"] = "2.0.0"
 
 tasks {
     jar {
@@ -42,9 +45,9 @@ dependencies {
     implementation("com.vaadin:vaadin-spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.google.api-client:google-api-client:2.0.0")
-    implementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
-    implementation("com.google.apis:google-api-services-sheets:v4-rev20220620-2.0.0")
+    implementation("com.google.api-client:google-api-client:${property("googleApiClient")}")
+    implementation("com.google.oauth-client:google-oauth-client-jetty:${property("googleAuthClient")}")
+    implementation("com.google.apis:google-api-services-sheets:${property("apiSheetsVersion")}")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
