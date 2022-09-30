@@ -24,6 +24,18 @@ repositories {
 
 extra["vaadinVersion"] = "23.2.2"
 
+tasks {
+    jar {
+        enabled = false
+    }
+    bootJar {
+        enabled = true
+    }
+}
+vaadin {
+    productionMode = System.getenv("VAADIN_PROD_MODE") == "true"
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
