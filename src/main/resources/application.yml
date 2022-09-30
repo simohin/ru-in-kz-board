@@ -1,0 +1,6 @@
+service.sheet.id: ${SHEET_ID}
+google:
+  auth:
+    credentials:
+      file:
+        encoded: ${ENCODED_SERVICE_ACCOUNT_FILE}
