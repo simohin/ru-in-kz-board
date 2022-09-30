@@ -33,7 +33,7 @@ tasks {
     }
 }
 vaadin {
-    productionMode = System.getenv("VAADIN_PROD_MODE") == "true"
+    productionMode = true
 }
 
 dependencies {
