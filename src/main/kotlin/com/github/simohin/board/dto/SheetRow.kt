@@ -8,4 +8,6 @@ data class SheetRow(
     val contact: String,
     val city: String,
     val good: String
-)
+) {
+    fun searchFields() = setOf(time.toString(), name, contact, good)
+}

@@ -2,7 +2,6 @@ package com.github.simohin.board.service
 
 import com.github.simohin.board.dto.SheetRow
 import com.google.api.services.sheets.v4.Sheets
-import com.vaadin.flow.data.provider.Query
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -22,19 +21,8 @@ class SheetService(
         private val DATETIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy H:mm:ss")
     }
 
-    @Cacheable("SheetService.findByCity")
-    fun getByCities(query: Query<SheetRow, Void>, cities: Collection<String>): List<SheetRow> {
-
-        query.page
-        query.pageSize
-
-        val sheetRows = if (cities.isEmpty()) getAll { true }
-        else getAll { cities.contains(it.city) }
-
-        if (query.sortingComparator.isEmpty) return sheetRows
-
-        return sheetRows.sortedWith(query.sortingComparator.get())
-    }
+    @Cacheable("SheetService.getAll")
+    fun getAll(): List<SheetRow> = getAll { true }
 
     @Cacheable("SheetService.getCities")
     fun getCities() = sheets.spreadsheets()
@@ -68,5 +56,5 @@ class SheetService(
         this.filterIsInstance<ArrayList<ArrayList<String>>>()[0]
 
     private fun <E> MutableCollection<E>.toDistinctValues() =
-        getValues().map { it[0] }.distinct()
+        getValues().map { it[0].trim() }.toSet()
 }
