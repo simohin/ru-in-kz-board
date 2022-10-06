@@ -4,8 +4,10 @@ plugins {
     id("org.springframework.boot") version "2.7.4"
     id("io.spring.dependency-management") version "1.0.14.RELEASE"
     id("com.vaadin") version "23.2.2"
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.7.20"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.7.20"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.spring") version "1.7.20"
 }
 
 group = "com.github.simohin"
@@ -41,6 +43,8 @@ vaadin {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.h2database:h2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.vaadin:vaadin-spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

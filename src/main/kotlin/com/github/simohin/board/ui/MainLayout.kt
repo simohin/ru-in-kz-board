@@ -1,6 +1,7 @@
 package com.github.simohin.board.ui
 
-import com.github.simohin.board.dto.SheetRow
+import com.github.simohin.board.entity.RelocantInfo
+import com.github.simohin.board.service.RelocantInfoService
 import com.github.simohin.board.service.SheetService
 import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.combobox.MultiSelectComboBox
@@ -22,7 +23,8 @@ import com.vaadin.flow.router.Route
 
 @Route("")
 class MainLayout(
-    private val sheetService: SheetService
+    private val sheetService: SheetService,
+    private val relocantInfoService: RelocantInfoService
 ) : VerticalLayout() {
 
     private val title = VerticalLayout().apply {
@@ -36,7 +38,7 @@ class MainLayout(
 
     private val citiesSelector = MultiSelectComboBox<String>().apply {
         placeholder = "Город"
-        setItems(sheetService.getCities())
+        setItems(relocantInfoService.getCities())
         addValueChangeListener {
             gridListDataView().refreshAll()
         }
@@ -59,14 +61,14 @@ class MainLayout(
         add(citiesSelector, searchField)
     }
 
-    private val grid = Grid(SheetRow::class.java, false).apply {
+    private val grid = Grid(RelocantInfo::class.java, false).apply {
         addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT)
-        addColumn(SheetRow::time).setHeader("Дата добавления")
-        addColumn(SheetRow::name).setHeader("Имя")
-        addColumn(SheetRow::city).setHeader("Город")
-        addColumn(SheetRow::good).setHeader("Навык")
-        addColumn(SheetRow::contact).setHeader("Контакты")
-        setItems(ListDataProvider(sheetService.getAll()))
+        addColumn(RelocantInfo::time).setHeader("Дата добавления")
+        addColumn(RelocantInfo::name).setHeader("Имя")
+        addColumn(RelocantInfo::city).setHeader("Город")
+        addColumn(RelocantInfo::good).setHeader("Навык")
+        addColumn(RelocantInfo::contact).setHeader("Контакты")
+        setItems(ListDataProvider(relocantInfoService.getAll()))
         listDataView.apply {
             addFilter(::cityFilter)
             addFilter(::searchFilter)
@@ -77,16 +79,16 @@ class MainLayout(
         add(title, search, grid)
     }
 
-    private fun gridListDataView(): GridListDataView<SheetRow> = grid.listDataView
+    private fun gridListDataView(): GridListDataView<RelocantInfo> = grid.listDataView
 
-    private fun cityFilter(sheetRow: SheetRow): Boolean =
+    private fun cityFilter(sheetRow: RelocantInfo): Boolean =
         with(citiesSelector.value.map { value -> value.toString() }.toSet()) {
             if (this.isEmpty()) true
             else this.contains(sheetRow.city)
         }
 
-    private fun searchFilter(sheetRow: SheetRow): Boolean = with(searchField.value) {
+    private fun searchFilter(sheetRow: RelocantInfo): Boolean = with(searchField.value) {
         return if (this.isNullOrBlank()) true
-        else sheetRow.searchFields().any { it.contains(this, false) }
+        else sheetRow.searchFields().any { it.contains(this, true) }
     }
 }

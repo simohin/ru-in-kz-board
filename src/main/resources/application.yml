@@ -4,3 +4,22 @@ google:
     credentials:
       file:
         encoded: ${ENCODED_SERVICE_ACCOUNT_FILE}
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:board
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
+      path: /db
+schedule:
+  data:
+    load:
+      rate:
+        millis: ${DATA_LOAD_MILLIS}
