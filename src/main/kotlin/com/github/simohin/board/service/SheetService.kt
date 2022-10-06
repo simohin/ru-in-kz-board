@@ -45,10 +45,10 @@ class SheetService(
         .map {
             SheetRow(
                 LocalDateTime.parse(it[0], DATETIME_FORMATTER),
-                it[1],
-                it[2],
-                it[3],
-                it[4]
+                it[1].trim(),
+                it[2].trim(),
+                it[3].trim(),
+                it[4].trim()
             )
         }
 

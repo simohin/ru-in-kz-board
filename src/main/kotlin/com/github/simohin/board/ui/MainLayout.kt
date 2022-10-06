@@ -82,7 +82,7 @@ class MainLayout(
     private fun cityFilter(sheetRow: SheetRow): Boolean =
         with(citiesSelector.value.map { value -> value.toString() }.toSet()) {
             if (this.isEmpty()) true
-            else this.contains(sheetRow.city.trim())
+            else this.contains(sheetRow.city)
         }
 
     private fun searchFilter(sheetRow: SheetRow): Boolean = with(searchField.value) {
